@@ -24,9 +24,9 @@ int value(int num) {
 }
 
 //3 - Faça uma função que que insere novos valores em um vetor cujos argumentos serão: valor a ser inserido, capacidade de armazenamento de valores (número de posições), qual foi a última posição preenchida e o nome do vetor criado. A função funcionará como um "append" do Python controlado
-int append(int num, int cap, int last, int *vet) {
+int append(int number, int cap, int last, int *vet) {
   if (last < cap) {
-    vet[last] = num;
+    vet[last] = number;
     last++;
   }
   return last;
@@ -41,21 +41,51 @@ int maior(int *vet) {
     if (vet[i] > maior) {
       maior = vet[i];
     }
+    
   }
+  
   return maior;
+}
+string direcao(int *vet) {
+  int maior = vet[0];
+  string direcao = "direita";
+  for (int i = 0; i < 4; i++) {
+    if (vet[i] > maior) {
+      maior = vet[i];
+      if (i == 0) {
+        direcao = "direita";
+      }
+      else if (i == 1) {
+        direcao = "esquerda";
+      }
+      else if (i == 2) {
+        direcao = "frente";
+      }
+      else if (i == 3) {
+        direcao = "tras";
+      }
+    }
+  }
+  return direcao;
 }
 
 //5 - Faça uma função que lê os valores 0 e 1, ficando em loop até que o valor 0 seja lido
 int loop() {
-  int num = 1;
-  while (num != 0) {
+  int number = 1;
+  while (number != 0) {
     printf("Digite um número: ");
-    scanf("%d", &num);
+    scanf("%d", &number);
   }
   return 0;
 }
 
 //6 - Interpretação subjetiva. Robô lê um vetor semelhante ao item 4 que define a ordem de execução de movimentos de um robô. Armazene a posição e a distância para qual o robô andou em um vetor (ou dicionário, ou struct, etc).
+//i.e.: 4,3,21
+//Direita
+//Esquerda
+//Frente
+//Trás
+//Armazenamento: {Direita:4; Esquerda:3, Frente:2, Trás:1}
 string movimentos(int *vet) {
   string mov = "";
   for (int i = 0; i < 4; i++) {
@@ -66,18 +96,10 @@ string movimentos(int *vet) {
     } else if (vet[i] == 2) {
       mov += "Direita ";
     } else if (vet[i] == 3) {
-      mov += "Esquerda ";
-    }
+      mov += "Esquerda ";    }
   }
   return mov;
 }
-//i.e.: 4,3,21
-//Direita
-//Esquerda
-//Frente
-//Trás
-//Armazenamento: {Direita:4; Esquerda:3, Frente:2, Trás:1}
-
 
 // TESTE DE VALIDAÇÃO DOS EXERCÍCIOS
 int main(){
@@ -97,10 +119,18 @@ int main(){
         int vet[4] = {3, 5, 1, 6};
         int teste4 = maior(vet);
         cout << teste4 << endl;
+        string teste4_2 = direcao(vet);
+        cout << teste4_2 << endl;
 //EXERCÍCIO 5:
         int teste5 = loop();
         cout << teste5 << endl;
 //
+//EXERCÍCIO 6:
+        int vet2[4] = {3, 5, 1, 6};
+        string teste6 = movimentos(vet2);
+        cout << teste6 << endl;
+        
+
 
 return 0;
 }
