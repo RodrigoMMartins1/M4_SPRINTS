@@ -22,7 +22,6 @@ const int btn2Pin = 19;
 const int timeout = 300;
 
 
-int sensorValue = 0;
 int ledValue = 0;
 int btn1State = 1;//Botão não pressionado
 int btn2State = 1;//Botão não pressionado
@@ -32,7 +31,6 @@ int notesIndex = 0;
 void setup() {
   Serial.begin(115200);
 
-  // Setup dos LEDs
   pinMode(led1Pin, OUTPUT);
   pinMode(led2Pin, OUTPUT);
   pinMode(led3Pin, OUTPUT);
@@ -43,7 +41,7 @@ void setup() {
 }
 
 void loop() {
-  sensorValue = analogRead(4); //  Função que realiza leitura analógica, o parâmetro é o pino
+  int sensorValue = analogRead(4); //  Função que realiza leitura analógica, o parâmetro é o pino
   /* 1 - Faça uma função que, a cada novo número medido,
   faça a contagem binária nos leds, pausadamente, de 0 até o número medido.
   2 - Acrescente "toque" usando um Buzzer que corresponda a uma nota diferente
@@ -51,10 +49,15 @@ void loop() {
   ler os dados de luz de um sensor LDR */
   if (ledValue != map(sensorValue, 32, 4063, 0, 15)) {
     ledValue = map(sensorValue, 32, 4063, 0, 15);
+    
     showLed(ledValue);
+    
     playSound(ledValue);
-    delay(timeout);
-    noTone(buzzerPin);
+    
+   noTone(buzzerPin);
+
+   delay(timeout);
+    
   }
   storeNote();
   playMusic();
@@ -81,23 +84,28 @@ void showLed(int value) {
 void playSound(int value) {
   int note = 0;
   char *noteName = "";
+  //Notas músicais retiradas da internet e uso de switch_case porcausa da enorme quantidad de if.
   switch(value) {
     case 0:
       note = 31;
       noteName = "b0";
       break;
+      
     case 1:
       note = 33;
       noteName = "c1";
       break;
+      
     case 2:
       note = 37;
       noteName = "d1";
       break;
+      
     case 3:
       note = 41;
       noteName = "e1";
       break;
+      
     case 4:
       note = 44;
       noteName = "f1";
@@ -106,10 +114,12 @@ void playSound(int value) {
       note = 49;
       noteName = "g1";
       break;
+      
     case 6:
       note = 55;
       noteName = "a1";
       break;
+      
     case 7:
       note = 62;
       noteName = "b1";
@@ -118,10 +128,12 @@ void playSound(int value) {
       note = 65;
       noteName = "c2";
       break;
+      
     case 9:
       note = 73;
       noteName = "d2";
       break;
+      
     case 10:
       note = 82;
       noteName = "e2";
@@ -131,6 +143,7 @@ void playSound(int value) {
       noteName = "f2";
       break;
     case 12:
+      
       note = 98;
       noteName = "g2";
       break;
@@ -138,10 +151,12 @@ void playSound(int value) {
       note = 110;
       noteName = "a2";
       break;
+      
     case 14:
       note = 123;
       noteName = "b2";
       break;
+      
     case 15:
       note = 131;
       noteName = "c3";
@@ -150,19 +165,26 @@ void playSound(int value) {
   tone(buzzerPin, note);
 }
 
-// Armazena a nota musical
+/
 void storeNote() {
   int Btn1State = digitalRead(btn1Pin); // verificar estado do botao 1
   if (Btn1State != btn1State) {
 
     if (Btn1State == 0) {
       btn1State = 0;
+      
       notes[notesIndex] = ledValue;
+      
       notesIndex++;
+      
       playSound(ledValue);
+      
       delay(timeout);
+      
       noTone(buzzerPin);
-    } else {
+    } 
+    
+    else {
       btn1State = 1;
     }
   }
@@ -179,12 +201,15 @@ void playMusic() {
         delay(timeout);
         noTone(buzzerPin);
       }
-      // Limpar array
+      // Limpa
+      
       for (int i = 0; i < notesIndex; i++) {
         notes[i] = 0;
       }
+      
       notesIndex = 0;
-    } else {
+    }
+      else {
       btn2State = 1;
     }
   }
