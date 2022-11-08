@@ -1,216 +1,125 @@
-// https://wokwi.com/projects/346077718503227987
+#define LED0 19
+#define LED1 20
+#define LED2 40
+#define LED3 41
+#define LDR 4
+#define BUZZER 9
+#define BUTTON_SELECT 2
+#define BUTTON_PLAY 1
 
-void showLed(int value);
+/*luminosidade).
+Os valores lidos pelo sensor LDR devem ser convertidos para uma contagem de até 4 dígitos binários, que por sua vez corresponderão aos 4 LEDs.
+Complemente o circuito com:
+1 - Buzzer, que deverá tocar um som diferente para cada valor da contagem binária
+2 - Dois botões (push button):
+--- Um dos botões deve armazenar um valor binário lido pelo LDR em um vetor (dica: acenda os LEDs e toque o som correspondente no momento do armazenamento)
+--- O outro botão deve exibir nos LEDs, em sequência, todos os valores armazenados no vetor anterior e, ao mesmo tempo, tocar seu respectivo som através do buzzer. Após a leitura de todos os valores armazenados, o vetor deve ser esvaziado.*/
 
-void storeNote();
+//Array que armazena 4 dígitos binários
+int binary[4];
 
-void updateLed();
+//Variável para tamanho da array
+int count = 0;
 
-void playMusic();
+//Função da conversão binária no intervalo de 0 a 15
 
-void displayNote(char * noteName);
-
-void countTo(int value);
-
-const int led1Pin = 1;
-const int led2Pin = 2;
-const int led3Pin = 42;
-const int led4Pin = 41;
-const int buzzerPin = 5;
-const int btn1Pin = 20;
-const int btn2Pin = 19;
-const int timeout = 300;
-
-
-int ledValue = 0;
-int btn1State = 1;//Botão não pressionado
-int btn2State = 1;//Botão não pressionado
-int notes[30] = {};//array para armazenar
-int notesIndex = 0;
+void conv(int value) {
+  int i = 0;
+  while (i != 4) {
+    //O valor da casa binária será dividido por 2, até chegar no quociente 0
+    binary[i] = value % 2;  //resto de 2 , 7 % 2 = 1
+    value = value / 2;      // valor dividio por 2, value
+    i++;
+  }
+}
 
 void setup() {
+  // put your setup code here, to run once:
   Serial.begin(115200);
+  pinMode(LED0, OUTPUT);
+  pinMode(LED1, OUTPUT);
+  pinMode(LED2, OUTPUT);
+  pinMode(LED3, OUTPUT);
+  pinMode(LDR, INPUT);
+  pinMode(BUZZER, OUTPUT);
+  pinMode(BUTTON_SELECT, INPUT_PULLUP);
+  pinMode(BUTTON_PLAY, INPUT_PULLUP);
+}
 
-  pinMode(led1Pin, OUTPUT);
-  pinMode(led2Pin, OUTPUT);
-  pinMode(led3Pin, OUTPUT);
-  pinMode(led4Pin, OUTPUT);
-  pinMode(buzzerPin, OUTPUT);
-  pinMode(btn1Pin, INPUT_PULLUP);
-  pinMode(btn2Pin, INPUT_PULLUP);
+// Criando as notas(frequencias) para o buzzer no intervalo de 0 a 15
+/*int note = 0;
+double notes[15] = {264, 296.2, 332.6, 352.4,
+                    395.5, 444, 498.4, 528,
+                    592.42, 665.28, 704.88,
+                    790.94, 888.1, 996,86}; */
+//Armazena a frequencia no intervalo de 0 a 15
+//Não funcionou e não sei porque
+int notes[100];
+void stock(int note) {
+  notes[count] = note;
+  count += 1;
+  tone(BUZZER, note * 120, 250);  //frequencia da nota em uma duração de 250 milisegundos
+}
+
+
+// Função que vê os números da array em binário e caso esteja em 1, liga
+void light() {
+  if (binary[0] == 1) {
+    digitalWrite(LED0, HIGH);
+  } else {
+    digitalWrite(LED0, LOW);
+  }
+
+  if (binary[1] == 1) {
+    digitalWrite(LED1, HIGH);
+  } else {
+    digitalWrite(LED1, LOW);
+  }
+
+  if (binary[2] == 1) {
+    digitalWrite(LED2, HIGH);
+  } else {
+    digitalWrite(LED2, LOW);
+  }
+
+  if (binary[3] == 1) {
+    digitalWrite(LED3, HIGH);
+  } else {
+    digitalWrite(LED3, LOW);
+  }
+}
+//Toca as músicas armazenadas na array
+void play_song() {
+  int i = 0;
+
+  while (i < count) {
+    conv(notes[i]);  //Converte a frequência do número da array em binario
+    tone(BUZZER, notes[i] * 120, 250);
+    light();
+    delay(1000);
+    i += 1;
+  }
+  //código para limpar as notas, zera o count
+  count = 0;
+  notes[100] = {};
 }
 
 void loop() {
-  int sensorValue = analogRead(4); //  Função que realiza leitura analógica, o parâmetro é o pino
-  /* 1 - Faça uma função que, a cada novo número medido,
-  faça a contagem binária nos leds, pausadamente, de 0 até o número medido.
-  2 - Acrescente "toque" usando um Buzzer que corresponda a uma nota diferente
-  para cada número. Ao contar de 0 até o número, o buzzer irá tocando todas as notas correspondentes.
-  ler os dados de luz de um sensor LDR */
-  if (ledValue != map(sensorValue, 32, 4063, 0, 15)) {
-    ledValue = map(sensorValue, 32, 4063, 0, 15);
-    
-    showLed(ledValue);
-    
-    playSound(ledValue);
-    
-   noTone(buzzerPin);
-
-   delay(timeout);
-    
+  int ldr = analogRead(LDR);
+  int scale = map(ldr, 32, 4063, 0, 15);  // Transformando os valores mínimos e máximos do ldr no intervalo 0 a 15
+  conv(scale);  
+  Serial.println(scale);                        // Convertendo o intervalo de 0 a 15 em binário
+  light();                                //Ligar os leds com binário em 1
+  
+  //BUTTON_SELECT ARMAZENA O VALOR DO INTERVALO DE 0 A 15
+  if (digitalRead(BUTTON_SELECT) == LOW) {
+    stock(scale);
+    Serial.println(scale);
   }
-  storeNote();
-  playMusic();
-  delay(timeout);
-}
-
-void updateLed() {
-  sensorValue = analogRead(4); // ler input analógico no pino 4
-
-  if (ledValue != map(sensorValue, 32, 4063, 15, 0)) {
-    ledValue = map(sensorValue, 32, 4063, 15, 0);
-    countTo(ledValue);
+  //BUTTON_PLAY TOCA A MÚSICA E O VALOR.
+  if (digitalRead(BUTTON_PLAY) == LOW) {
+    play_song();
   }
-}
 
-void showLed(int value) {
-  digitalWrite(led1Pin, value & 0b0001); // Número binário correspondente ao led1
-  digitalWrite(led2Pin, value & 0b0010); // Número binário correspodentea ao led2
-  digitalWrite(led3Pin, value & 0b0100); // Número binário correspodentea ao led42
-  digitalWrite(led4Pin, value & 0b1000); // Número binário correspodentea ao led41
-}
-
-// Toque do buzzer
-void playSound(int value) {
-  int note = 0;
-  char *noteName = "";
-  //Notas músicais retiradas da internet e uso de switch_case porcausa da enorme quantidad de if.
-  switch(value) {
-    case 0:
-      note = 31;
-      noteName = "b0";
-      break;
-      
-    case 1:
-      note = 33;
-      noteName = "c1";
-      break;
-      
-    case 2:
-      note = 37;
-      noteName = "d1";
-      break;
-      
-    case 3:
-      note = 41;
-      noteName = "e1";
-      break;
-      
-    case 4:
-      note = 44;
-      noteName = "f1";
-      break;
-    case 5:
-      note = 49;
-      noteName = "g1";
-      break;
-      
-    case 6:
-      note = 55;
-      noteName = "a1";
-      break;
-      
-    case 7:
-      note = 62;
-      noteName = "b1";
-      break;
-    case 8:
-      note = 65;
-      noteName = "c2";
-      break;
-      
-    case 9:
-      note = 73;
-      noteName = "d2";
-      break;
-      
-    case 10:
-      note = 82;
-      noteName = "e2";
-      break;
-    case 11:
-      note = 87;
-      noteName = "f2";
-      break;
-    case 12:
-      
-      note = 98;
-      noteName = "g2";
-      break;
-    case 13:
-      note = 110;
-      noteName = "a2";
-      break;
-      
-    case 14:
-      note = 123;
-      noteName = "b2";
-      break;
-      
-    case 15:
-      note = 131;
-      noteName = "c3";
-      break;
-  }
-  tone(buzzerPin, note);
-}
-
-/
-void storeNote() {
-  int Btn1State = digitalRead(btn1Pin); // verificar estado do botao 1
-  if (Btn1State != btn1State) {
-
-    if (Btn1State == 0) {
-      btn1State = 0;
-      
-      notes[notesIndex] = ledValue;
-      
-      notesIndex++;
-      
-      playSound(ledValue);
-      
-      delay(timeout);
-      
-      noTone(buzzerPin);
-    } 
-    
-    else {
-      btn1State = 1;
-    }
-  }
-}
-
-void playMusic() {
-  int Btn2State = digitalRead(btn2Pin);
-  if (Btn2State != btn2State) {
-    if (Btn2State == 0) {
-      btn2State = 0;
-      for (int i = 0; i < notesIndex; i++) {
-        delay(timeout);
-        playSound(notes[i]);
-        delay(timeout);
-        noTone(buzzerPin);
-      }
-      // Limpa
-      
-      for (int i = 0; i < notesIndex; i++) {
-        notes[i] = 0;
-      }
-      
-      notesIndex = 0;
-    }
-      else {
-      btn2State = 1;
-    }
-  }
+  delay(200);
 }
