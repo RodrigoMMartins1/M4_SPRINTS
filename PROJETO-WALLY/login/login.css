@@ -1,0 +1,303 @@
+body {
+    margin: 0; /* Anulando a margem */ 
+    font-family: sans-serif; /* Definindo a fonte */
+    background: linear-gradient(#141e30, #243b55);
+}
+.main-login{
+    width: 100vw ; /* 100% da tela, vw é a porcentagem da largura do sua tela */
+    height: 100vh; /* 100% da tela, vh é a porcentagem da altura do sua tela */
+    
+    display: flex; /* Faz com que as divs fiquem lado a lado */
+    justify-content: center; /* Centraliza o conteúdo no eixo x */
+    align-items: center; /* Centraliza o conteúdo no eixo y*/
+}
+.left-login{
+    width: 50vw; /* 50% da tela, vw é a porcentagem da largura do sua tela */
+    height: 100vh; /* 100% da tela, vh é a porcentagem da altura do sua tela */
+    display: flex; /* Faz com que as divs fiquem lado a lado */
+    justify-content: center; /* Centraliza o conteúdo no eixo x */
+    align-items: center; /* Centraliza o conteúdo no eixo y*/
+
+}
+.left-login > h1 {
+  width: 70%;
+  padding: 5px;
+  /* background: #fff; */
+  color: #fff;
+  font-size: 40px;
+  /*Make an epic title */
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 10px;
+  font-weight: 100;
+  margin: 0;
+  /*Make it look like it's floating*/
+  position: relative;
+  /*Make it look like it's floating*/
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0% {
+    transform: translatey(0px); /* Isso faz com que o texto fique parado */
+  }
+  50% {
+    transform: translatey(-20px); /* Isso faz com que o texto fique flutuando */
+  }
+  100% {
+    transform: translatey(0px); /* Isso faz com que o texto fique parado */
+  }
+}
+
+.right-login{
+    width: 50vw; /* 50% da tela, vw é a porcentagem da largura do sua tela */
+    height: 100vh; /* 100% da tela, vh é a porcentagem da altura do sua tela */
+    display: flex; /* Faz com que as divs fiquem lado a lado */
+    justify-content: center; /* Centraliza o conteúdo no eixo x */
+    align-items: center; /* Centraliza o conteúdo no eixo y*/
+}
+.right-login > h1 {
+  width: 70%;
+  padding: 5px;
+  /* background: #fff; */
+  color: #fff;
+  font-size: 50px;
+  /*Make an epic title */
+  text-align: center; 
+  text-transform: uppercase;
+  letter-spacing: 10px;
+  font-weight: 100;
+  margin: 0;
+  
+  position: relative; /* Faz com que o texto fique flutuando */
+  /*Make it look like it's floating*/
+  animation: float 6s ease-in-out infinite; /* Faz com que o texto fique flutuando */
+}
+
+
+
+.login-form{
+    width: 400px; /* 400px de largura */
+    height: 400px; /* 400px de altura */
+    background: #fff; /* Cor de fundo */
+    border-radius: 5px; /* Arredondando as bordas */
+    box-shadow: 0 0 10px rgba(0,0,0,0.2); /* Sombra */
+    padding: 20px; /* Espaçamento interno */
+    display: flex; /* Faz com que as divs fiquem lado a lado */
+    flex-direction: column; /* Faz com que as divs fiquem uma embaixo da outra */
+    justify-content: center; /* Centraliza o conteúdo no eixo x */
+    align-items: center; /* Centraliza o conteúdo no eixo y*/
+}
+.login-form > h1 {
+  width: 100%;
+  padding: 5px;
+  background: #fff;
+  color: #000;
+  font-size: 50px;
+  /*Make an epic title */
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 10px;
+  font-weight: 100px;
+  margin: 0;
+  /*Make it look like it's floating*/
+  position: relative;
+  /*Make it look like it's floating*/
+  animation: float 6s ease-in-out infinite; /* Isso instancia a animação */
+}
+
+
+
+.login-form > input {
+  width: 100%; /* 100% da largura da div */
+  padding: 10px; /* Espaçamento interno */
+  margin: 10px 0; /* Espaçamento entre os inputs */
+  border: 1px solid #ccc; /* Borda */
+  border-radius: 5px; /* Arredondando as bordas */
+  outline: none; /* Tirando o contorno azul */
+}
+.login-form > input[type="submit"] /* Estilizando o botão de submit */ {
+  background: #000; /* Cor de fundo */
+  color: #fff; /* Cor da fonte */
+  cursor: pointer; /* Cursor, deixa a mãozinha*/
+} 
+.login-form > input[type="submit"]:hover /* Estilizando o botão de submit quando o mouse passa por cima */ {
+  background: #fff; /* Cor de fundo */
+  color: #000; /* Cor da fonte */
+  border: 1px solid #000; /* Borda */
+}
+/*Colocar logo na extrema esquerda em cima*/
+.logo{
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 10px;
+}
+
+/* Posicionar Logo no canto superior esquerdo */
+.atech-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 20px;
+}
+/*Posicionar icone em cima do h1 e centralizado*/
+.icon {
+    position: absolute;
+    width: 20%;
+    left: 20%;
+    transform: translate(-50%, -50%);
+
+}
+
+
+
+.right-login{
+    width: 50vw; /* 50% da tela, vw é a porcentagem da largura do sua tela */
+    height: 100vh; /* 100% da tela, vh é a porcentagem da altura do sua tela */
+    display: flex; /* Faz com que as divs fiquem lado a lado */
+    justify-content: center; /* Centraliza o conteúdo no eixo x */
+    align-items: center; /* Centraliza o conteúdo no eixo y*/
+    
+  }
+.login-box{
+    width: 60%; /* 60% da tela, ou seja, irá pegar 60% de 50 vh*/
+    display: flex; /* Faz com que as divs fiquem lado a lado */
+    justify-content: center; /* Centraliza o conteúdo no eixo x */
+    align-items: center; /* Centraliza o conteúdo no eixo y*/
+    flex-direction: column; /* Faz com que as divs fiquem uma embaixo da outra quando usamos o flex */
+    padding: 30px 35px ; /* 30px de cima e baixo e 35px de lado a lado, são margens para dentro, o primeiro valor eixo y e o segundo eixo x*/
+    background: rgba(0,0,0,.5);
+    box-sizing: border-box; /* Faz com que o padding não seja contado na largura da div */
+    box-shadow: 0 15px 25px rgba(0,0,0,.6); /* Sombra, primeiro valor se refere ao x, o segundo valor se refere ao eixo y, o terceiro é o blur e o terceiro a cor*/
+    border-radius: 20px; /* Arredondando as bordas */
+
+}
+.login-box > h1 {
+    margin: 0 0 30px; /* 0 de cima e baixo e 30px de lado a lado, são margens para dentro, o primeiro valor eixo y e o segundo eixo x*/
+    padding: 0; /* Anulando a margem */
+    color: #fff;
+    text-align: center;
+}
+.user-box{
+    display:flex;
+    flex-direction: column ;
+    align-items: flex-start; /* Alinha o conteúdo no eixo x, o uso de flex-direction inverte os eixos do align items e justify content */
+    justify-content: center; /* Centraliza o conteúdo no eixo y*/
+}
+.login-box .user-box {
+    position: relative; /* Faz com que o input fique em cima do label */
+  }
+.login-box .user-box input /* Estilizando o input */ {
+    width: 100%;
+    padding: 15px;
+    font-size: 25px;
+    color: #fff;
+    margin-bottom: 30px;
+    border: none;
+    border-bottom: 1px solid #fff;
+    outline: none; /* Anula o outline(caixinha) do input */
+    background: transparent; /* Deixa o fundo transparente */
+    box-sizing: border-box; /* Faz com que o padding não seja contado na largura da div */
+  }
+  .login-box .user-box input:focus ~ label,
+  .login-box .user-box input:valid ~ label /* Estilizando o label quando o input estiver com foco ou preenchido */ {
+    top: -20px;
+    left: 0;
+    color: #03e9f4;
+    font-size: 12px;
+  }
+  .login-box form a {
+    position: relative; /* Faz com que o input fique em cima do label */
+    display: inline-block; /* Faz com que o input fique em cima do label */
+    padding: 10px;
+    color: #03e9f4; /* Cor da fonte */
+    font-size: 16px; /* Tamanho da fonte */
+    text-decoration: none; /* Tira o sublinhado do link */
+    text-transform: uppercase; /* Deixa as letras maiúsculas */
+    overflow: hidden; /* Faz com que o texto não saia da div */
+    transition: .5s; /* Tempo da animação */
+    margin-top: 40px; /* Margem para cima */
+    letter-spacing: 4px /* Espaçamento entre as letras */
+  }
+  .login-box a:hover /* Estilizando o botão de submit quando o mouse passa por cima */ {
+    background: #03e9f4; /* Cor de fundo */
+    color: #fff; /* Cor da fonte */
+    border-radius: 5px; /* Arredondando as bordas */
+    box-shadow: 0 0 5px #03e9f4, /* Sombra, primeiro valor se refere ao x, o segundo valor se refere ao eixo y, o terceiro é o blur e o terceiro a cor*/
+                0 0 25px #03e9f4,
+                0 0 50px #03e9f4,
+                0 0 100px #03e9f4;
+  }
+  .login-box a span /* Estilizando o botão de submit quando o mouse passa por cima */ {
+    position: absolute; /* Faz com que o input fique em cima do label */
+    display: block; /* Faz com que o input fique em cima do label */
+  }
+  .login-box a span:nth-child(1) /* Estilizando o botão de submit quando o mouse passa por cima */ {
+    top: 0; 
+    left: -100%;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #03e9f4); /* Gradiente, primeiro valor se refere ao ângulo, o segundo valor se refere a cor inicial e o terceiro a cor final */
+    animation: btn-anim1 1s linear infinite; /* Animação, primeiro valor se refere ao nome da animação, o segundo valor se refere ao tempo da animação, o terceiro valor se refere ao tipo de animação e o quarto valor se refere a quantidade de vezes que a animação irá se repetir */
+  }
+  @keyframes btn-anim1 /* Estilizando o botão de submit quando o mouse passa por cima, animação */ {
+    0% {
+      left: -100%; /* Posição inicial */
+    }
+    50%,100% {
+      left: 100%; /* Posição final */
+    }
+  }
+  .login-box a span:nth-child(2) /* Estilizando o botão de submit quando o mouse passa por cima */ {
+    top: -100%;
+    right: 0;
+    width: 2px;
+    height: 100%;
+    background: linear-gradient(180deg, transparent, #03e9f4); /* Gradiente, primeiro valor se refere ao ângulo, o segundo valor se refere a cor inicial e o terceiro a cor final */
+    animation: btn-anim2 1s linear infinite; /* Animação, primeiro valor se refere ao nome da animação, o segundo valor se refere ao tempo da animação, o terceiro valor se refere ao tipo de animação e o quarto valor se refere a quantidade de vezes que a animação irá se repetir */
+    animation-delay: .25s /* Delay da animação */
+  }
+  @keyframes btn-anim2 {
+    0% {
+      top: -100%;
+    }
+    50%,100% {
+      top: 100%;
+    }
+  }
+  .login-box a span:nth-child(3)  /* Estilizando o botão de submit quando o mouse passa por cima */ {
+    bottom: 0;
+    right: -100%;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(270deg, transparent, #03e9f4); /* Gradiente, primeiro valor se refere ao ângulo, o segundo valor se refere a cor inicial e o terceiro a cor final */
+    animation: btn-anim3 1s linear infinite; /* Animação, primeiro valor se refere ao nome da animação, o segundo valor se refere ao tempo da animação, o terceiro valor se refere ao tipo de animação e o quarto valor se refere a quantidade de vezes que a animação irá se repetir */
+    animation-delay: .5s
+  }
+  @keyframes btn-anim3 {
+    0% {
+      right: -100%; /* Posição inicial */
+    }
+    50%,100% /* Posição final */ {
+      right: 100%; /* Posição final */
+    }
+  }
+  .login-box a span:nth-child(4) /* Estilizando o botão de submit quando o mouse passa por cima */ {
+    bottom: -100%;
+    left: 0;
+    width: 2px;
+    height: 100%;
+    background: linear-gradient(360deg, transparent, #03e9f4); /* Gradiente, primeiro valor se refere ao ângulo, o segundo valor se refere a cor inicial e o terceiro a cor final */
+    animation: btn-anim4 1s linear infinite; /* Animação, primeiro valor se refere ao nome da animação, o segundo valor se refere ao tempo da animação, o terceiro valor se refere ao tipo de animação e o quarto valor se refere a quantidade de vezes que a animação irá se repetir */
+    animation-delay: .75s /* Delay da animação */
+  }
+  @keyframes btn-anim4 {
+    0% {
+      bottom: -100%;
+    }
+    50%,100% {
+      bottom: 100%;
+    }
+  }
+  
