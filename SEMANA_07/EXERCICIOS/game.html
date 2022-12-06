@@ -1,0 +1,237 @@
+!<DOCTYPE html>
+    <html>
+    <head>
+        <title>PingPongas Brasil</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        <style> 
+        body{
+            background-image: url('https://www.otempo.com.br/image/contentid/policy:1.2771812:1669328611/image.jpg?f=3x2&q=0.6&w=1200&$p$f$q$w=4633e5f');
+            
+        }
+        
+        canvas{
+                position: absolute;
+                left: 50%; /* posiciona o canvas no centro da tela */
+                top: 50%; /* posiciona o canvas no centro da tela */
+                background-color: #009063;
+                margin-top: -300px; /* metade da altura */
+                margin-left: -300px; /* metade da largura */
+            }
+        </style>
+    </head>
+    <body>
+        <span id="inicio">Jogo Iniciado!</span> 
+        
+
+
+
+        
+        <!--Código do Jogo-->
+        
+        <canvas width="600" height="600" id="canv"></canvas>
+        <script>
+            var inicio = document.getElementById("goal");
+
+
+        
+            
+            function gameStart() {
+                fetch('http:192.168.0.72:80/', {
+                method: 'GET',
+                headers: {
+                'Content-Type': 'application/json'
+                                                    }
+                                                        })
+        
+            }
+            
+
+                
+                                                        
+                                                    
+
+
+
+
+            var canvas = document.getElementById("canv");
+            var ctx = canvas.getContext("2d"); 
+    
+            var teclas = {}; //Array para guardar teclas
+    
+            var bola = {
+                x: canvas.width / 2 - 15, //posição inicial da bola largura
+                y: canvas.height / 2 -15, //posição inicial da bola altura
+                altura: 30, //tamanho da bola
+                largura: 30, //tamanho da bola
+                dirx: -1, //direção da bola
+                diry: 1, //direção da bola
+                mod: 0, //velocidade da bola
+                speed: 5//velocidade da bola
+            };
+    
+            var esquerda = {
+                x: 10, //posição inicial da raquete esquerda
+                y: canvas.height / 2 -60, //posição inicial da raquete
+                altura: 120, //tamanho da raquete
+                largura: 30, //tamanho da raquete
+                score: 0, //pontuação
+                speed: 20 //velocidade da raquete
+            };
+    
+            var direita = {
+                x: 560, //posição inicial da raquete
+                y: canvas.height / 2 - 60, //posição inicial da raquete
+                altura: 120, //tamanho da raquete
+                largura: 30, //tamanho da raquete
+                score: 0, //pontuação
+                speed: 20//velocidade da raquete
+            };
+    
+            document.addEventListener("keydown", function(e){
+                teclas[e.keyCode] = true;
+            },false); //Se meter um alert aqui, ele vai mostrar o código da tecla que foi pressionada
+    
+            document.addEventListener("keyup", function(e){
+                delete teclas[e.keyCode];
+            },false); //Se meter um alert aqui, ele vai mostrar o código da tecla que foi pressionada
+    
+    
+                
+
+            function movebloco(){ //movimentação da raquete
+
+                if (87 in teclas && esquerda.y > 0) { //tecla W
+                    esquerda.y -= esquerda.speed;  
+                }
+
+
+
+    
+                else if (83 in teclas && esquerda.y + esquerda.altura < canvas.height) {
+                    esquerda.y += esquerda.speed; //tecla S, se a posição da raquete + a altura da raquete for menor que a altura do canvas, a raquete vai descer
+                }
+    
+                if (38 in teclas && direita.y > 0) {
+                    direita.y -= direita.speed; //tecla seta para cima, vai reduzindo a speed conforme for encostando no canvas
+                }
+    
+                else if (40 in teclas && direita.y + direita.altura < canvas.height) {
+                    direita.y += direita.speed; //tecla seta para baixo
+                }
+            }
+            
+    
+            function movebola(){ //movimentação da bola
+                if (bola.y + bola.altura >= esquerda.y && bola.y <= esquerda.y + esquerda.altura && bola.x <= esquerda.x + esquerda.largura) {
+                    bola.dirx = 1; //colisão com a raquete esquerda
+                    bola.mod += 0.2;  
+    
+                }else if(bola.y + bola.altura >= direita.y && bola.y <= direita.y + direita.altura && bola.x + bola.largura >= direita.x){
+                    bola.dirx = -1;
+                    bola.mod += 0.2;
+                }
+                //caso a bola bata no topo ou no final da canvas
+                if (bola.y <= 0) {
+                    bola.diry = 1;
+    
+                }else if (bola.y + bola.altura >= canvas.height) {
+                    bola.diry = -1;
+                }
+    
+                bola.x += (bola.speed + bola.mod) * bola.dirx; ;//movimentação da bola
+                bola.y += (bola.speed + bola.mod) * bola.diry; //aumenta a velocidade da bola conforme ela vai batendo nas raquetes
+    
+                if (bola.x < esquerda.x + esquerda.largura -15) { //se a bola passar da raquete esquerda
+                    newgame("Player 2");
+                }else if(bola.x + bola.largura > direita.x + 15){ //se a bola passar da raquete direita
+                    newgame("Player 1"); 
+                }
+            }
+            
+    
+            function newgame(winner){ 
+                gameStart();
+                
+                if (winner == "Player 1") {
+                    esquerda.score++; //aumenta a pontuação da raquete esquerda
+                }else{
+                    direita.score++; //aumenta a pontuação da raquete direita
+                }
+    
+                //voltar os itens para o meio da tela
+                esquerda.y = canvas.height / 2 - esquerda.altura /2; 
+                direita.y = esquerda.y;
+                bola.y = canvas.height / 2 - bola.altura / 2;
+                bola.x = canvas.width /2 - bola.largura / 2;
+                bola.mod = 0;
+
+            //Se a pontuação passar de 10, o jogo acaba
+            if (esquerda.score == 5) {
+                fetch('http://192.168.0.72:80/win', {
+                    method: 'GET',
+                    headers: {
+                    'Content-Type': 'application/json'
+                     }
+                                                    })
+                alert("Player 1 venceu!");
+                window.onload();
+                gameStart();
+            
+                //Resetar a pontuação
+                esquerda.score = 0;
+                direita.score = 0;
+
+
+               
+
+        
+            
+            }
+
+            else if(direita.score == 5){
+                fetch('http://192.168.0.72:80/win', {
+                    method: 'GET',
+                    headers: {
+                    'Content-Type': 'application/json'
+                    }
+                                                    })
+                alert("Player 2 venceu!");
+                window.onload();
+                gameStart();
+                
+                //Resetar a pontuação
+                esquerda.score = 0;
+                direita.score = 0;
+                
+                
+    
+            }
+            }
+            
+    
+            function desenha(){
+    
+                ctx.clearRect(0,0,canvas.width, canvas.height); //limpa o canvas - incial x e y -  final x e y
+    
+                movebloco(); //chama a função movimentação da raquete
+                movebola(); //chama a função movimentação da bola
+     
+                ctx.fillStyle = "white"; //cor da bola
+                ctx.fillRect(esquerda.x, esquerda.y, esquerda.largura, esquerda.altura); //desenha a raquete esquerda
+                ctx.fillRect(direita.x, direita.y, direita.largura, esquerda.altura); //desenha a raquete direita
+                ctx.fillRect(bola.x, bola.y, bola.largura, bola.altura); //desenha a bola
+    
+                ctx.font = "20px Arial"; //fonte da pontuação
+                ctx.fillText("Player 1: " + esquerda.score, 50, 20); //desenha a pontuação da raquete esquerda
+                ctx.fillText("Player 2: " + direita.score, canvas.width - 150, 20);		 //desenha a pontuação da raquete direita	
+            }
+            setInterval(desenha,20); //chama a função desenha a cada 20 milisegundos        
+
+
+        </script>
+     
+    </body>
+    </html>
